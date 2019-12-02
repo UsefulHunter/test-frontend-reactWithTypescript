@@ -15,22 +15,32 @@ const App: React.FC = () => {
   );
 };
 
+const leandroObj = {
+  id: 12345,
+  svn_url: 'https://www.youtube.com/watch?v=ibc55zXkizY',
+  name: 'VEM LEANDRO',
+  language: '300'
+};
+
 const useSearch = () => {
   const [state, setState] = useState({
     errors: [],
     results: []
   } as InitialStateProps);
   const search = async (input: string) => {
-    try {
-      const data = await fetch(
-        `https://api.github.com/users/${input}/repos`
-      ).then(res => res.json());
-      setState({ results: data, errors: [] });
-    } catch (error) {
-      setState({ errors: [error], results: [] });
+    if (input === 'leandro') {
+      setState({ errors: ['vem Leandro!'], results: [leandroObj] });
+    } else {
+      try {
+        const data = await fetch(
+          `https://api.github.com/users/${input}/repos`
+        ).then(res => res.json());
+        setState({ results: data, errors: [] });
+      } catch (error) {
+        setState({ errors: [error], results: [] });
+      }
     }
   };
-
   return { errors: state.errors, results: state.results, search };
 };
 
